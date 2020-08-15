@@ -1,10 +1,10 @@
 const express = require('express')
 
-const notesRouter = express.Router()
+const noteRouter = express.Router()
 const jsonParser = express.json()
 
-notesRouter
-    .route('/')
+noteRouter
+    .route('/notes')
     .get((req, res, next) => {
         res.json("what up")
     })
