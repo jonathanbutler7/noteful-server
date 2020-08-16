@@ -95,7 +95,14 @@ app.patch("/notes/:note_id", jsonParser, (req, res, next) => {
   const id = req.params.note_id;
   const { note_name, content, note_id } = req.body;
   const noteToUpdate = { note_name, content, note_id }
+  console.log(noteToUpdate)
+  const numberOfValues = Object.values(noteToUpdate).filter(Boolean).length;
 
+  if (numberOfValues === 0) {
+    return res.status(400).json({
+      error: { message: `Request body must contain one of the following: note_name, content`}
+    })
+  }
   NoteService.updateNote(req.app.get('db'), id, noteToUpdate)
   .then(numRowsAffected => {
     res.status(204).end()
@@ -116,6 +123,14 @@ app.patch("/folders/:folder_id", jsonParser, (req, res, next) => {
   const id = req.params.folder_id;
   const { folder_name } = req.body;
   const folderToUpdate = { folder_name }
+
+  const numberOfValues = Object.values(folderToUpdate).filter(Boolean).length;
+
+  if (numberOfValues === 0) {
+    return res.status(400).json({
+      error: { message: `Request body must contain folder_name`}
+    })
+  }
   FolderService.updateFolder(req.app.get('db'), id, folderToUpdate)
   .then(numRowsAffected => {
     res.status(204).end()
