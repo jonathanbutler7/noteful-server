@@ -4,10 +4,12 @@ const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const { NODE_ENV } = require("./config");
-const noteRouter = require('./note/note-router')
-const folderRouter = require('./folder/folder-router')
+const NoteService = require("./note/note-service");
+const FolderService = require("./folder/folder-service");
+const noteRouter = require("./note/note-router");
+const folderRouter = require("./folder/folder-router");
 
-const jsonParser = express.json()
+const jsonParser = express.json();
 const app = express();
 
 const morganOption = NODE_ENV === "production" ? "tiny" : "common";
@@ -18,9 +20,42 @@ app.use(cors());
 // app.use('/api/note', noteRouter)
 // app.use('/api/folder', folderRouter)
 
-// app.get("/", (req, res) => {
-//   res.send("What up from noteful-server");
-// });
+app.get("/notes", (req, res, next) => {
+  NoteService.getAllNotes(req.app.get("db"))
+    .then((notes) => {
+      res.json(notes);
+    })
+    .catch(next);
+});
+
+app.post("/notes", jsonParser, (req, res, next) => {
+  const { note_name, content, folder_id } = req.body;
+  const newNote = { note_name, content, folder_id };
+
+  NoteService.insertNote(req.app.get("db"), newNote)
+    .then((note) => {
+      res.status(201).json(newNote);
+    })
+    .catch(next);
+});
+
+app.get("/folders", (req, res, next) => {
+  FolderService.getAllFolders(req.app.get("db"))
+    .then((folders) => {
+      res.json(folders);
+    })
+    .catch(next);
+});
+
+app.post("/folders", jsonParser, (req, res, next) => {
+  const { folder_name } = req.body;
+  const newFolder = { folder_name };
+  FolderService.insertFolder(req.app.get("db"), newFolder)
+    .then((folder) => {
+      res.status(201).json(newFolder);
+    })
+    .catch(next);
+});
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
