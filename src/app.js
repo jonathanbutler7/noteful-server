@@ -66,6 +66,18 @@ app.get("/folders", (req, res, next) => {
     .catch(next);
 });
 
+app.patch("/notes/:note_id", jsonParser, (req, res, next) => {
+  const id = req.params.note_id;
+  const { note_name, content, note_id } = req.body;
+  const noteToUpdate = { note_name, content, note_id }
+
+  NoteService.updateNote(req.app.get('db'), id, noteToUpdate)
+  .then(numRowsAffected => {
+    res.status(204).end()
+  })
+  .catch(next)
+})
+
 app.delete("/folders/:folder_id", jsonParser, (req, res, next) => {
   const id = req.params.folder_id;
 
@@ -73,6 +85,17 @@ app.delete("/folders/:folder_id", jsonParser, (req, res, next) => {
   .then(() => {
     res.status(204).end()
   })
+})
+
+app.patch("/folders/:folder_id", jsonParser, (req, res, next) => {
+  const id = req.params.folder_id;
+  const { folder_name } = req.body;
+  const folderToUpdate = { folder_name }
+  FolderService.updateFolder(req.app.get('db'), id, folderToUpdate)
+  .then(numRowsAffected => {
+    res.status(204).end()
+  })
+  .catch(next)
 })
 
 app.get("/folders/:folder_id", jsonParser, (req, res, next) => {

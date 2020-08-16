@@ -17,6 +17,9 @@ const FolderService = {
   deleteFolder(knex, id) {
     return knex("folder").where({ id }).delete();
   },
+  updateFolder(knex, id, newFolderFields) {
+      return knex("folder").where({ id }).update(newFolderFields)
+  }
 };
 
 module.exports = FolderService;
