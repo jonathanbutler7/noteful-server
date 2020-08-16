@@ -8,3 +8,5 @@ noteRouter
     .get((req, res, next) => {
         res.json("what up")
     })
+
+module.exports = noteRouter
