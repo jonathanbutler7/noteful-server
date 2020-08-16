@@ -11,6 +11,12 @@ const FolderService = {
         return rows[0];
       });
   },
+  getById(knex, id) {
+    return knex.from("folder").where("id", id).first();
+  },
+  deleteFolder(knex, id) {
+    return knex("folder").where({ id }).delete();
+  },
 };
 
 module.exports = FolderService;

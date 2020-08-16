@@ -28,6 +28,16 @@ app.get("/notes", (req, res, next) => {
     .catch(next);
 });
 
+app.get("/notes/:note_id", jsonParser, (req, res, next) => {
+  const id = req.params.note_id;
+
+  NoteService.getById(req.app.get("db"), id)
+    .then((note) => {
+      res.status(201).json(note);
+    })
+    .catch(next);
+});
+
 app.post("/notes", jsonParser, (req, res, next) => {
   const { note_name, content, folder_id } = req.body;
   const newNote = { note_name, content, folder_id };
@@ -39,10 +49,38 @@ app.post("/notes", jsonParser, (req, res, next) => {
     .catch(next);
 });
 
+app.delete("/notes/:note_id", jsonParser, (req, res, next) => {
+  const id = req.params.note_id;
+
+  NoteService.deleteNote(req.app.get("db"), id)
+  .then(() => {
+    res.status(204).end()
+  })
+})
+
 app.get("/folders", (req, res, next) => {
   FolderService.getAllFolders(req.app.get("db"))
     .then((folders) => {
       res.json(folders);
+    })
+    .catch(next);
+});
+
+app.delete("/folders/:folder_id", jsonParser, (req, res, next) => {
+  const id = req.params.folder_id;
+
+  FolderService.deleteFolder(req.app.get('db'), id)
+  .then(() => {
+    res.status(204).end()
+  })
+})
+
+app.get("/folders/:folder_id", jsonParser, (req, res, next) => {
+  const id = req.params.folder_id;
+
+  FolderService.getById(req.app.get("db"), id)
+    .then((folder) => {
+      res.status(201).json(folder);
     })
     .catch(next);
 });
