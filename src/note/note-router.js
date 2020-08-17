@@ -74,7 +74,7 @@ noteRouter
     const id = req.params.note_id;
     const { note_name, content, note_id } = req.body;
     const noteToUpdate = { note_name, content, note_id };
-    console.log(noteToUpdate);
+    
     const numberOfValues = Object.values(noteToUpdate).filter(Boolean).length;
   
     if (numberOfValues === 0) {
