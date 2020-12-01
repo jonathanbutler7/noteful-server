@@ -1,0 +1,7 @@
+# [START app_yaml]
+runtime: nodejs  
+env: flex  
+
+# [END app_yaml]
+beta_settings:
+  cloud_sql_instances: "noteful-server:us-west2:noteful-database"

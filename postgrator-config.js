@@ -3,5 +3,5 @@ require('dotenv').config()
 module.exports = {
     "migrationsDirectory": "migrations",
     "driver": "pg",
-    "connectionString": process.env.DATABASE_URL
+    "connectionString": 'noteful-server:us-west2:noteful-database'
 }

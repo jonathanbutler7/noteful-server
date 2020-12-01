@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const { NODE_ENV } = require('./config');
+const { DATABASE_URL } = process.env;
 const noteRouter = require('./note/note-router');
 const folderRouter = require('./folder/folder-router');
 
@@ -20,7 +21,7 @@ app.use('/api/folders', folderRouter);
 app.use(function errorHandler(error, req, res, next) {
   let response;
   if (NODE_ENV === 'production') {
-    response = { error: { message: 'server error' } };
+    response = { error: { message: 'server error', url: DATABASE_URL } };
   } else {
     console.error(error);
     response = { message: error.message, error };
