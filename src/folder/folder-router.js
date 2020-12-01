@@ -24,7 +24,7 @@ folderRouter
     }
     FolderService.insertFolder(req.app.get('db'), newFolder)
       .then((folder) => {
-        res.status(201).json(newFolder);
+        res.status(201).json(folder);
       })
       .catch(next);
   });
@@ -59,7 +59,8 @@ folderRouter
     }
     FolderService.updateFolder(req.app.get('db'), id, folderToUpdate)
       .then((numRowsAffected) => {
-        res.status(204).end();
+        console.log(numRowsAffected);
+        res.status(201).json({ numRowsAffected }).end();
       })
       .catch(next);
   })
@@ -67,7 +68,10 @@ folderRouter
     const id = req.params.folder_id;
 
     FolderService.deleteFolder(req.app.get('db'), id).then(() => {
-      res.status(204).end();
+      res
+        .status(201)
+        .json({ message: `Deleted folder with ID: ${id}` })
+        .end();
     });
   });
 

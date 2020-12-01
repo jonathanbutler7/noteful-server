@@ -60,7 +60,7 @@ noteRouter
   .delete(jsonParser, (req, res, next) => {
     const { note_id } = req.params;
     NoteService.deleteNote(req.app.get('db'), note_id).then((id) => {
-      console.log('id from router',id)
+      console.log('id from router', id);
       if (!id) {
         res.status(404).json({
           error: {
@@ -68,7 +68,10 @@ noteRouter
           },
         });
       }
-      res.status(200).json({message: `Deleted note with ID: ${note_id}`}).end();
+      res
+        .status(200)
+        .json({ message: `Deleted note with ID: ${note_id}` })
+        .end();
     });
   })
   .patch(jsonParser, (req, res, next) => {
@@ -87,7 +90,7 @@ noteRouter
     }
     NoteService.updateNote(req.app.get('db'), id, noteToUpdate)
       .then((numRowsAffected) => {
-        res.status(204).end();
+        res.status(200).json(noteToUpdate).end();
       })
       .catch(next);
   });
