@@ -21,7 +21,7 @@ app.use('/api/folders', folderRouter);
 app.use(function errorHandler(error, req, res, next) {
   let response;
   if (NODE_ENV === 'production') {
-    response = { error: { message: 'server error', url: DATABASE_URL } };
+    response = { error: { message: error.message, url: DATABASE_URL } };
   } else {
     console.error(error);
     response = { message: error.message, error };
