@@ -2,6 +2,8 @@ const express = require('express');
 const loginRouter = express.Router();
 const parser = require('body-parser');
 const User = require('../models/user');
+const passport = require('../config/passport');
+const jwt = require('jsonwebtoken');
 loginRouter.use(parser.json());
 
 loginRouter.get('/', (req, res) => {
