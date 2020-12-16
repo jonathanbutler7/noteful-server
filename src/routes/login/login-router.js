@@ -4,10 +4,17 @@ const parser = require('body-parser');
 const User = require('../../models/user');
 const passport = require('../../config/passport');
 const jwt = require('jsonwebtoken');
+const LoginService = require('./LoginService');
 loginRouter.use(parser.json());
 
-loginRouter.get('/', (req, res) => {
-  res.send('hi');
+loginRouter.get('/', async (req, res) => {
+  const db = req.app.get('db');
+  try {
+    const result = await LoginService.getAllUsers(db);
+    res.status(201).send(result);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 loginRouter.post('/register', async (req, res) => {
@@ -27,7 +34,7 @@ loginRouter.post('/gettoken', (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(401).send('Fields not sent');
   }
-
+console.log(req.body)
   User.forge({ email: req.body.email })
     .fetch()
     .then((result) => {
@@ -51,7 +58,6 @@ loginRouter.get(
   '/getUser',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    console.log(req.user);
     res.send(req.user);
   }
 );

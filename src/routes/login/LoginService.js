@@ -1,16 +1,16 @@
 const LoginService = {
-  //   getAllUsers(knex) {
-  //     return knex.select('*').from('user');
-  //   },
-  insertUser(knex, newUser) {
-    return knex
-      .insert(newUser)
-      .into('user')
-      .returning('*')
-      .then((rows) => {
-        return rows[0];
-      });
-  },
+    getAllUsers(knex) {
+      return knex.select('*').from('app_user');
+    },
+  // insertUser(knex, newUser) {
+  //   return knex
+  //     .insert(newUser)
+  //     .into('user')
+  //     .returning('*')
+  //     .then((rows) => {
+  //       return rows[0];
+  //     });
+  // },
   getById(knex, id) {
     return knex.from('user').where('id', id).first();
   },
