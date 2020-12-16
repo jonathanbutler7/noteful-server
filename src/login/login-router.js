@@ -1,14 +1,11 @@
 const express = require('express');
-const bcrypt = require('bcrypt');
 const loginRouter = express.Router();
 const parser = require('body-parser');
+const User = require('../models/user');
 loginRouter.use(parser.json());
-const User = db.Model.extend({
-  tableName: 'login_user',
-  hasSecurePassword: true,
-});
+
 loginRouter.get('/', (req, res) => {
-  res.json('hi');
+  res.send('hi');
 });
 
 loginRouter.post('/seedUser', async (req, res) => {
