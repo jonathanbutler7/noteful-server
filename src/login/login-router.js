@@ -12,11 +12,11 @@ loginRouter.get('/', (req, res) => {
 
 loginRouter.post('/seedUser', async (req, res) => {
   console.log(req.body);
-  if (!req.body.email || !req.body.password) {
+  if (!req.body.name || !req.body.password) {
     return res.status(401).send('no fields');
   }
   const user = new User({
-    email: req.body.email,
+    name: req.body.name,
     password: req.body.password,
   });
   user.save().then(() => {
