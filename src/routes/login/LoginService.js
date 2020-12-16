@@ -1,7 +1,7 @@
 const LoginService = {
-//   getAllUsers(knex) {
-//     return knex.select('*').from('user');
-//   },
+  //   getAllUsers(knex) {
+  //     return knex.select('*').from('user');
+  //   },
   insertUser(knex, newUser) {
     return knex
       .insert(newUser)
